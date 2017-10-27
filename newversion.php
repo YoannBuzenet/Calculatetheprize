@@ -7,9 +7,6 @@
 <body>
 	<h1> Calcule la dot </h1>
 <?php
-// Penser à 
-//4. Que le nombre d'euros soit arrondi à la dizaine inférieure (et afficher un message pour prévenir l'utilisateur dans ce cas)
-
 	if(isset($_GET["somme_a_repartir"]) && filter_var($_GET["somme_a_repartir"], FILTER_VALIDATE_INT) !== false && !isset($_GET["PPTQ"])) {
 		echo "On répartit ". $_GET['somme_a_repartir'] . " euros sur ". $_GET["nombre_de_personnes"] . " personnes. <br /><br />" ;
 
