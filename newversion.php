@@ -15,6 +15,7 @@
 		$coef_total = 0;
 // On compte une fois "dans le vide" (sans rien écrire) pour savoir combien vaut le coef global (qui est fonction du nombre de joueurs)
 		while($place_classement <= $_GET["nombre_de_personnes"]) {
+			// Création de paliers pour les demi et quarts de finale. Le coef est le même pour 3 & 4, et pour 5-6-7-8.
 			if($place_classement == 4 || $place_classement == 6 || $place_classement == 7 || $place_classement == 8){
 			$coef_total = $coef_total + $coef_joueur ;
 			}
