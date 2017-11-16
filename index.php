@@ -1,10 +1,14 @@
 <?php 
-if(isset($_GET['nb_de_joueurs']) && isset($_GET['somme_a_repartir'])){
+if(isset($_GET['nb_de_joueurs']) && isset($_GET['somme_a_repartir']) && filter_var($_GET["somme_a_repartir"], FILTER_VALIDATE_INT) !== false) {
 $nb_de_joueurs =  $_GET['nb_de_joueurs'];
 $somme_totale = $_GET['somme_a_repartir'];
 $somme_totale_du_minimum_par_joueur = $_GET['montant_dotation_minimale'] * $nb_de_joueurs;
 $somme_a_repartir = $somme_totale - $somme_totale_du_minimum_par_joueur;
 $somme_mini_par_joueur = $_GET['montant_dotation_minimale'];
+
+function arrondir5($nombre){
+   return $nombre-($nombre%5);
+}
 
 
 	// Definition du palier
@@ -114,73 +118,99 @@ $somme_mini_par_joueur = $_GET['montant_dotation_minimale'];
 <body>
 	<h1> Calcule la dot </h1>
 <?php
-		if(isset($somme_a_repartir)) {
-		echo "On répartit ". $somme_a_repartir . " euros sur ". $nb_de_joueurs . " personnes. <br /><br />" ;
+		if(isset($somme_a_repartir)){
+		echo "On répartit ". $somme_totale . " euros sur ". $nb_de_joueurs . " personnes. <br /><br />" ;
 
 		// On établit la boucle qui construit le classement
 $place_classement = 1;
+$total_distribué = 0;
 while($place_classement <= $nb_de_joueurs) {
 	echo $place_classement.'. ';
 		if($place_classement == 1){ 
 			$ratio = $coef_palier_1/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = arrondir5(round($somme_a_attribuer));
+			echo arrondir5(round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		elseif($place_classement == 2){ 
 			$ratio = $coef_palier_2/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = arrondir5(round($somme_a_attribuer));
+			echo arrondir5(round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		elseif($place_classement == 3 || $place_classement == 4){ 
 			$ratio = $coef_palier_3/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = arrondir5(round($somme_a_attribuer));
+			echo arrondir5(round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		elseif($place_classement > 4 && $place_classement <= 8){ 
 			$ratio = $coef_palier_4/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = arrondir5(round($somme_a_attribuer));
+			echo arrondir5(round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		elseif($place_classement > 8 && $place_classement <= 16){ 
 			$ratio = $coef_palier_5/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = (round($somme_a_attribuer));
+			echo (round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		elseif($place_classement > 16 && $place_classement <= 32){ 
 			$ratio = $coef_palier_6/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = (round($somme_a_attribuer));
+			echo(round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		elseif($place_classement > 32 && $place_classement <= 64){ 
 			$ratio = $coef_palier_7/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = (round($somme_a_attribuer));
+			echo (round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		elseif($place_classement > 64 && $place_classement <= 128){ 
 			$ratio = $coef_palier_8/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = (round($somme_a_attribuer));
+			echo (round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		elseif($place_classement > 128 && $place_classement <= 256){ 
 			$ratio = $coef_palier_9/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = (round($somme_a_attribuer));
+			echo (round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		elseif($place_classement > 256  && $place_classement <= 512){ 
 			$ratio = $coef_palier_10/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = (round($somme_a_attribuer));
+			echo (round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		elseif($place_classement > 512 && $place_classement <= 1024){ 
 			$ratio = $coef_palier_11/$total_tantieme;
 			$somme_a_attribuer = $ratio * $somme_a_repartir + $somme_mini_par_joueur;
-			echo round($somme_a_attribuer);
+			$somme_defitinive = (round($somme_a_attribuer));
+			echo (round($somme_a_attribuer));
+			$total_distribué = $total_distribué + $somme_defitinive;
 		}
 		
 			echo '<br />'; 
 	$place_classement = $place_classement +1;
 
 }
+echo '<br />';
+echo 'Total distribué : '. $total_distribué;
+echo '<br />';
 	echo '<br /> <a href="http://localhost:8888/Calculeladot/calculeladotV2.php"> Retour à l\'accueil </a>';
 }
 	
