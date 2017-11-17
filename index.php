@@ -195,9 +195,12 @@
 			}
 			elseif($place_classement > 16 && $place_classement <= 32){ 
 				$ratio = $coef_palier_6/$total_tantieme;
-				$somme_a_attribuer = $ratio * $somme_a_repartir+ $somme_mini_par_joueur;
+				$somme_a_attribuer = $ratio * $somme_a_repartir;
 				if($somme_a_attribuer < $somme_mini_par_joueur){
 					$somme_a_attribuer = $somme_mini_par_joueur;
+				}
+				else{
+					$somme_a_attribuer = $ratio * $somme_a_repartir+ $somme_mini_par_joueur;
 				}
 				$somme_defitinive = (round($somme_a_attribuer));
 				echo(round($somme_a_attribuer));
@@ -205,9 +208,12 @@
 			}
 			elseif($place_classement > 32 && $place_classement <= 64){ 
 				$ratio = $coef_palier_7/$total_tantieme;
-				$somme_a_attribuer = $ratio * $somme_a_repartir+ $somme_mini_par_joueur;
+				$somme_a_attribuer = $ratio * $somme_a_repartir;
 				if($somme_a_attribuer < $somme_mini_par_joueur){
 					$somme_a_attribuer = $somme_mini_par_joueur;
+				}
+				else{
+					$somme_a_attribuer = $ratio * $somme_a_repartir+ $somme_mini_par_joueur;
 				}
 				$somme_defitinive = (round($somme_a_attribuer));
 				echo (round($somme_a_attribuer));
@@ -215,9 +221,12 @@
 			}
 			elseif($place_classement > 64 && $place_classement <= 128){ 
 				$ratio = $coef_palier_8/$total_tantieme;
-				$somme_a_attribuer = $ratio * $somme_a_repartir+ $somme_mini_par_joueur;
+				$somme_a_attribuer = $ratio * $somme_a_repartir;
 				if($somme_a_attribuer < $somme_mini_par_joueur){
 					$somme_a_attribuer = $somme_mini_par_joueur;
+				}
+				else{
+					$somme_a_attribuer = $ratio * $somme_a_repartir+ $somme_mini_par_joueur;
 				}
 				$somme_defitinive = (round($somme_a_attribuer));
 				echo (round($somme_a_attribuer));
