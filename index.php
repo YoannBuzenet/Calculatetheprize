@@ -113,10 +113,11 @@
 
 	<html>
 	<head>
+		<link rel="stylesheet" href="theme.css" />
 	</head>
 
 	<body>
-		<h1> Calcule la dot </h1>
+		<a href ="http://localhost:8888/Calculeladot/calculeladotV2.php"><h1> Calcule la dot </h1></a>
 	<?php
 			if(isset($somme_a_repartir)){
 			echo "On répartit ". $somme_totale . " euros sur ". $nb_de_joueurs . " personnes. <br /><br />" ;
