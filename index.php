@@ -113,11 +113,13 @@
 
 	<html>
 	<head>
-		<link rel="stylesheet" href="theme.css" />
+		<link rel="stylesheet" href="theme.css" type="text/css" />
 	</head>
 
 	<body>
-		<a href ="http://localhost:8888/Calculeladot/calculeladotV2.php"><h1> Calcule la dot </h1></a>
+		<section class="main_form">
+		<a href ="index.php" class="h1_link"><h1> Calcule la dot' </h1></a>
+		<h2> Récompensez correctement vos joueurs</h2>
 	<?php
 			if(isset($somme_a_repartir)){
 			echo "On répartit ". $somme_totale . " euros sur ". $nb_de_joueurs . " personnes. <br /><br />" ;
@@ -179,10 +181,18 @@
 					echo arrondir5(round($somme_a_attribuer));
 				}
 				else {
+					if($somme_defitinive != 0){
 					$somme_defitinive = $somme_mini_par_joueur;
 					echo $somme_defitinive;
+					}
+					else{
+						echo round($somme_a_attribuer);
+						$total_distribué = $total_distribué + round($somme_a_attribuer);
+					}
+
 				}
 				$total_distribué = $total_distribué + $somme_defitinive;
+
 			}
 			elseif($place_classement > 8 && $place_classement <= 16){ 
 				$ratio = $coef_palier_5/$total_tantieme;
@@ -283,18 +293,19 @@
 	$non_distribue = ($somme_totale - $total_distribué);
 	echo 'Non distribué : '. $non_distribue;	
 	echo '<br />';
-		echo '<br /> <a href="http://localhost:8888/Calculeladot/calculeladotV2.php"> Retour à l\'accueil </a>';
+		echo '<br /> <a href="index.php"> Retour à l\'accueil </a>';
 	}
 		
 		else {
 	?>
 		<form method="GET">
-		<label> Nombre de joueurs à récompenser : <input type="text" name="nb_de_joueurs"/> </label> <br /> <br />
-		<label> Somme à répartir : <input type="text" name="somme_a_repartir"/> euros. </label> <br /> <br />
-	<label> Je veux que chaque joueur ait au minimum <input type="text" name="montant_dotation_minimale" placeholder="Indiquez un nombre" value ="0"/> euros. <em> (Si vous voulez récompenser tous vos joueurs, et pas uniquement un top 8. Si vous voulez que chaque joueur ait au moins un booster, mettez votre prix d'un booster ici) </em></label>
+		<label class ="champ_form"> Nombre de joueurs à récompenser : <input type="text" name="nb_de_joueurs"/> </label> <br /> <br />
+		<label class ="champ_form"> Somme à répartir : <input type="text" name="somme_a_repartir"/> euros. </label> <br /> <br />
+	<label> Minimum par joueur <input type="text" name="montant_dotation_minimale" placeholder="Indiquez un nombre" value ="0"/> euros.</label>
 		<br /> <br />
-		<input type="submit" value=" Calcule !"/>
+		<input class="submit_button" type="submit" value=" Calcule !"/>
 		</form>
+	</section>	
 
 		<?php
 			}
