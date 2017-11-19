@@ -6,6 +6,8 @@
 	$somme_a_repartir = $somme_totale - $somme_totale_du_minimum_par_joueur;
 	$somme_mini_par_joueur = $_GET['montant_dotation_minimale'];
 
+	$verif_saisie_joueur = $somme_mini_par_joueur * $nb_de_joueurs;
+
 	function arrondir5($nombre){
 	   return $nombre-($nombre%5);
 	}
@@ -122,6 +124,11 @@
 		<h2> Récompensez correctement vos joueurs</h2>
 	<?php
 			if(isset($somme_a_repartir)){
+
+				if($verif_saisie_joueur > $somme_a_repartir){
+					echo '<div class="warning"> Le montant que vous avez saisi est trop faible pour récompenser tous les joueurs ! </div>';
+				}
+
 			echo "On répartit ". $somme_totale . " euros sur ". $nb_de_joueurs . " personnes. <br /><br />" ;
 
 			// On établit la boucle qui construit le classement
@@ -167,8 +174,14 @@
 					echo arrondir5(round($somme_a_attribuer));
 				}
 				else {
+					if($somme_defitinive != 0){
 					$somme_defitinive = $somme_mini_par_joueur;
 					echo $somme_defitinive;
+					}
+					else{
+						echo round($somme_a_attribuer);
+						$total_distribué = $total_distribué + round($somme_a_attribuer);
+					}
 				}
 				$total_distribué = $total_distribué + $somme_defitinive;
 			}
