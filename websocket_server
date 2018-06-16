@@ -1,0 +1,103 @@
+<?php
+set_time_limit(0);
+
+use Ratchet\MessageComponentInterface;
+use Ratchet\ConnectionInterface;
+use Ratchet\Server\IoServer;
+use Ratchet\Http\HttpServer;
+use Ratchet\WebSocket\WsServer;
+require_once '../vendor/autoload.php';
+
+$path = '../vendor/autoload.php';
+
+echo realpath($path);
+echo "Welcome on Robot Card Sorter Server. A lot of things are going to happen here...";
+
+class Chat implements MessageComponentInterface {
+	protected $clients;
+	protected $users;
+
+	public function __construct() {
+		$this->clients = new \SplObjectStorage;
+	}
+
+	public function onOpen(ConnectionInterface $conn) {
+		$this->clients->attach($conn);
+		// $this->users[$conn->resourceId] = $conn;
+	}
+
+	public function onClose(ConnectionInterface $conn) {
+		$this->clients->detach($conn);
+		// unset($this->users[$conn->resourceId]);
+	}
+
+	public function onMessage(ConnectionInterface $from,  $data) {
+		$from_id = $from->resourceId;
+		$data = json_decode($data);
+		$type = $data->type;
+		switch ($type) {
+			case 'chat':
+				$user_id = $data->user_id;
+				$chat_msg = $data->chat_msg;
+				$response_from = "<span style='color:#999'><b>".$user_id.":</b> ".$chat_msg."</span><br><br>";
+				$response_to = "<b>".$user_id."</b>: ".$chat_msg."<br><br>";
+
+				// Here we interpret the input and use it to log into DB
+                if (preg_match("#,#", $chat_msg))
+                {
+                    $user_want_login = true;
+                }
+                else
+                {
+                    $user_want_login = false;
+                }
+                if(isset($user_want_login) && $user_want_login == true) {
+                    $get_login_password = explode(',', $chat_msg);
+                    $login = $get_login_password[0];
+                    $password = $get_login_password[1];
+
+                    // Connection à la BDD et check si l'user existe
+                    try {
+                        $bdd = new PDO('mysql:host=localhost;dbname=robotcardsorter;charset=utf8', 'root', 'root', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+                    } catch (Exception $e) {
+                        die('Erreur : ' . $e->getMessage());
+                    }
+
+                    $password_hash = trim($password);
+
+                    $info_customer = $bdd->prepare('SELECT * FROM user WHERE mail = ?');
+                    $info_customer->execute(array($login));
+                    $info_check = $info_customer->fetch();
+
+
+                    if ($login == $info_check['mail'] && $password_hash == $info_check['password']) {
+                        echo 'User connected to the website !';
+                    } else {
+                        echo 'Wrong login or password. Please try again.';
+                    }
+                }
+
+
+                    // Output
+				$from->send(json_encode(array("type"=>$type,"msg"=>$response_from)));
+				foreach($this->clients as $client)
+				{
+					if($from!=$client)
+					{
+						$client->send(json_encode(array("type"=>$type,"msg"=>$response_to)));
+					}
+				}
+				break;
+		}
+	}
+
+	public function onError(ConnectionInterface $conn, \Exception $e) {
+		$conn->close();
+	}
+}
+$server = IoServer::factory(
+	new HttpServer(new WsServer(new Chat())),
+	8084
+);
+$server->run();
+?>
